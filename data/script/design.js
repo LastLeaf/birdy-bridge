@@ -9,14 +9,14 @@ game.prologue = [
 
 game.epilogue = [
 	'The girl defeat the monster, but there are no birds now.',
-	'She just live in the monster\'s palace, enjoying her life.',
+	'She just live in the monster\'s palace, alone.',
 	'...',
 	'What about the boy? Who knows.'
 ];
 
 game.levelDesign = [
 	{
-		hint: 'Place a bird. The girl would jump onto it.',
+		hint: 'Place a bird. The girl would try jumping onto it. Try moving to the rightmost bird.',
 		start: { x: 200, y: 300 },
 		end: { x: 600, y: 150 },
 		badStars: [],
@@ -102,12 +102,12 @@ game.levelDesign = [
 	{
 		hint: 'Ahhhhhhhh there is the bird monster!!!',
 		start: { x: 50, y: 300 },
-		end: { x: 750, y: 200 },
+		end: { x: 750, y: 200, isMonster: true },
 		badStars: [
 			{ x: 400, y: 225, size: 200 }
 		],
 		meteorShower: [
-			{ x1: 750, y1: 200, x2: null, y2: null, size: 40, speed: 6, minLen: 1280 }
+			{ x1: 700, y1: 180, x2: null, y2: null, size: 40, speed: 5, minLen: 1200 }
 		]
 	}
 ];

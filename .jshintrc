@@ -15,6 +15,7 @@
 	"node": true,
 	"predef": [
 		"createjs",
+		"imgprocessor",
 		"game"
 	]
 }

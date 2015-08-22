@@ -12,11 +12,37 @@
 		{id: 'girl', src: 'image/girl.png'},
 		{id: 'badStar', src: 'image/bad_star.png'},
 		{id: 'bird', src: 'image/bird.png'},
-		{id: 'level', src: 'script/level.js'},
-		{id: 'levelDesign', src: 'script/design.js'},
-		{id: 'texts', src: 'script/texts.js'},
-		{id: 'main', src: 'script/main.js'}
+		{src: 'script/imgprocessor_algorithm.js'},
+		{src: 'script/imgprocessor.js'},
+		{src: 'script/level.js'},
+		{src: 'script/design.js'},
+		{src: 'script/texts.js'},
+		{src: 'script/main.js'}
 	];
+
+	var processImages = function(cb){
+		var images = game.resources.images = {};
+		images.bird = game.resources.getResult('bird');
+		var pendingCount = 1;
+		var pendingAdd = function(){
+			pendingCount ++;
+		};
+		var pendingEnd = function(){
+			if(--pendingCount) return;
+			cb();
+		};
+		// monster bird
+		pendingAdd();
+		imgprocessor(images.bird).monochrome().toCanvas(function(img){
+			images.birdMonsterTitle = img;
+			pendingEnd();
+		});
+		imgprocessor(images.bird).mirror(0).monochrome().mozaic(4).histogramEqualization().toCanvas(function(img){
+			images.birdMonster = img;
+			pendingEnd();
+		});
+		pendingEnd();
+	};
 
 	game.stage = new createjs.Stage('stage');
 	var progressText = new createjs.Text('Loading...', '20px "Noto Sans",sans', '#808080');
@@ -35,8 +61,11 @@
 		progressText.text = document.title = 'Loading... ' + Math.round(e.progress*100) + '%';
 	});
 	queue.on('complete', function(){
-		document.title = game.TITLE;
-		game.main();
+		progressText.text = document.title = 'Processing...';
+		processImages(function(){
+			document.title = game.TITLE;
+			game.main();
+		});
 	});
 	queue.loadManifest(resources);
 })();

@@ -19,7 +19,184 @@
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
-     id="defs4461" />
+     id="defs4461">
+    <filter
+       id="filter3011"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3013"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3015"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3017"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3019"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3021"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3023"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3025"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3027"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3029"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3031"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3033"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3035"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3037"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3039"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3041"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3043"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3045"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3047"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3049"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3051"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3053"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3055"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3057"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3059"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3061"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3063"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3065"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3067"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3069"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+    <filter
+       id="filter3071"
+       inkscape:label="Glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Glow of object's own color at the edges"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3073"
+         stdDeviation="5"
+         result="result91" />
+      <feComposite
+         id="feComposite3075"
+         in2="result91"
+         in="SourceGraphic"
+         operator="over" />
+    </filter>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -29,7 +206,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
      inkscape:cx="214.2814"
-     inkscape:cy="188.596"
+     inkscape:cy="185.73886"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -54,7 +231,8 @@
      transform="translate(0,-852.36218)">
     <g
        id="g5001"
-       transform="translate(-16,0)">
+       transform="translate(-16,0)"
+       style="filter:url(#filter3071)">
       <path
          sodipodi:nodetypes="cc"
          inkscape:connector-curvature="0"
@@ -70,7 +248,8 @@
     </g>
     <g
        id="g5059"
-       transform="translate(-6.5964431,0)">
+       transform="translate(-6.5964431,0)"
+       style="filter:url(#filter3065)">
       <path
          inkscape:connector-curvature="0"
          id="path4473"
@@ -84,7 +263,8 @@
     </g>
     <g
        id="g5063"
-       transform="translate(-7.6639252,0)">
+       transform="translate(-7.6639252,0)"
+       style="filter:url(#filter3059)">
       <path
          inkscape:connector-curvature="0"
          id="path4477"
@@ -99,7 +279,8 @@
     </g>
     <g
        id="g5067"
-       transform="translate(-9.558335,0)">
+       transform="translate(-9.558335,0)"
+       style="filter:url(#filter3053)">
       <path
          sodipodi:nodetypes="ccc"
          inkscape:connector-curvature="0"
@@ -115,7 +296,8 @@
     </g>
     <g
        id="g5071"
-       transform="translate(-8.0000072,0)">
+       transform="translate(-8.0000072,0)"
+       style="filter:url(#filter3047)">
       <path
          sodipodi:nodetypes="cc"
          inkscape:connector-curvature="0"
@@ -130,20 +312,21 @@
          style="fill:none;stroke:#479cc9;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     </g>
     <path
-       style="fill:none;stroke:#479cc9;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:none;stroke:#479cc9;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter3041)"
        d="m 614.90354,990.65726 c -26.02893,4.73593 -39.97092,-1.27208 -41.7562,-18.08608 -0.41204,-32.62267 23.76929,-27.55881 41.18614,-29.61768 4.08304,33.29053 3.94939,88.4396 -15.60906,92.6837 -19.55845,4.244 -30.88783,-16.1291 -30.88783,-16.1291"
        id="path4489"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccczc" />
     <path
-       style="fill:none;stroke:#479cc9;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:none;stroke:#479cc9;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter3035)"
        d="m 641.35977,975.79092 c 22.67802,1.92238 37.05954,-7.77612 40.91687,-21.98575 -4.27472,-9.69297 -14.05488,-15.40964 -29.15344,-13.05776 -16.51948,2.57322 -18.17481,30.85696 -9.13222,45.35498 4.02481,10.11275 32.53966,15.71821 43.04305,-2.79286"
        id="path4491"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccscc" />
     <g
        transform="translate(304.94773,-1.4085598)"
-       id="g5001-1">
+       id="g5001-1"
+       style="filter:url(#filter3029)">
       <path
          sodipodi:nodetypes="cc"
          inkscape:connector-curvature="0"
@@ -159,7 +342,8 @@
     </g>
     <g
        id="g5047"
-       transform="translate(-24.593306,-3.0710678)">
+       transform="translate(-24.593306,-3.0710678)"
+       style="filter:url(#filter3023)">
       <path
          inkscape:connector-curvature="0"
          id="path4473-0"
@@ -173,7 +357,8 @@
     </g>
     <g
        id="g5051"
-       transform="translate(-20.280776,-3.0710678)">
+       transform="translate(-20.280776,-3.0710678)"
+       style="filter:url(#filter3017)">
       <path
          inkscape:connector-curvature="0"
          id="path4477-6"
@@ -188,7 +373,8 @@
     </g>
     <g
        id="g5055"
-       transform="translate(-24.536822,-3.0710678)">
+       transform="translate(-24.536822,-3.0710678)"
+       style="filter:url(#filter3011)">
       <path
          sodipodi:nodetypes="ccc"
          inkscape:connector-curvature="0"

@@ -12,9 +12,15 @@ game.main = function(){
 	stage.enableMouseOver(30);
 
 	// read storage
-	game.storage = JSON.parse( localStorage['me.lastleaf.birdy-bridge'] || "{}" );
+	try {
+		game.storage = JSON.parse( localStorage['me.lastleaf.birdy-bridge'] || "{}" );
+	} catch(e) {
+		game.storage = {};
+	}
 	game.storageSave = function(){
-		localStorage['me.lastleaf.birdy-bridge'] = JSON.stringify(game.storage);
+		try {
+			localStorage['me.lastleaf.birdy-bridge'] = JSON.stringify(game.storage);
+		} catch(e) {}
 	};
 
 	// logo
@@ -88,18 +94,49 @@ game.main = function(){
 		girl.y = y;
 		return girl;
 	};
-	var createBird = function(x, y){
+	var birdSprite = new createjs.SpriteSheet({
+		images: [game.resources.images.bird],
+		frames: { width: 80, height: 80 },
+		animations: {
+			stay: 0,
+			fly: {
+				frames: [0,1,2,3,4,5,6,7,6,5,4,3,2,1],
+				speed: 0.4,
+			}
+		}
+	});
+	var birdMtSprite = new createjs.SpriteSheet({
+		images: [game.resources.images.birdMonsterTitle],
+		frames: { width: 80, height: 80 },
+		animations: {
+			stay: 0,
+			fly: {
+				frames: [0,1,2,3,4,5,6,7,6,5,4,3,2,1],
+				speed: 0.4,
+			}
+		}
+	});
+	var createBird = function(x, y, monochrome){
 		var bird = new createjs.Container();
-		var birdPic = new createjs.Bitmap(game.resources.getResult('bird'));
+		var img = birdSprite;
+		if(monochrome) img = birdMtSprite;
+		var birdPic = new createjs.Sprite(img);
 		birdPic.x = -35;
 		birdPic.y = -50;
+		birdPic.gotoAndPlay('stay');
+		birdPic.on('mouseover', function(){
+			birdPic.gotoAndPlay('fly');
+		});
+		birdPic.on('mouseout', function(){
+			birdPic.gotoAndPlay('stay');
+		});
 		bird.addChild(birdPic);
 		bird.x = x;
 		bird.y = y;
 		return bird;
 	};
 	birdsLoc.forEach(function(pos, id){
-		var bird = createBird(pos.x, pos.y);
+		var bird = createBird(pos.x, pos.y, id === 6);
 		if((game.storage.currentLevel || 0) === id) {
 			stage.addChild( createGirl(pos.x, pos.y) );
 		}
@@ -107,6 +144,9 @@ game.main = function(){
 			bird.alpha = 0.2;
 		}
 		bird.on('click', function(){
+			if(id > (game.storage.reachedLevel || 0)) {
+				if(!confirm('This level is locked. Do you REALLY want to play it?')) return;
+			}
 			if(id) game.level(id);
 			else game.texts(game.prologue, function(){
 				game.level(0);

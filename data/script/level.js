@@ -10,15 +10,15 @@ game.level = function(levelId){
 	createjs.Ticker.removeAllEventListeners();
 
 	var design = game.levelDesign[levelId];
+	game.storage.currentLevel = levelId;
+	if((game.storage.reachedLevel || 0) <= levelId) game.storage.reachedLevel = levelId;
+	game.storageSave();
 	if(!design) {
 		game.texts(game.epilogue, function(){
 			game.main();
 		});
 		return;
 	}
-	game.storage.currentLevel = levelId;
-	if((game.storage.reachedLevel || 0) <= levelId) game.storage.reachedLevel = levelId;
-	game.storageSave();
 
 	var backgroundLayer = new createjs.Container();
 	backgroundLayer.mouseEnabled = false;
@@ -103,6 +103,7 @@ game.level = function(levelId){
 		var curTick = loopTicks;
 		createjs.Ticker.on('tick', function(){
 			if(curTick === loopTicks) {
+				if(ended) return;
 				curTick = 0;
 				badStar.x = x1;
 				badStar.y = y1;
@@ -144,18 +145,54 @@ game.level = function(levelId){
 		girl.y = y;
 		return girl;
 	};
-	var createBird = function(x, y){
+
+	// birds
+	var birdSprite = new createjs.SpriteSheet({
+		images: [game.resources.images.bird],
+		frames: { width: 80, height: 80 },
+		animations: {
+			stay: 0,
+			fly: {
+				frames: [0,1,2,3,4,5,6,7,6,5,4,3,2,1],
+				speed: 0.4,
+			}
+		}
+	});
+	var birdMonsterSprite = new createjs.SpriteSheet({
+		images: [game.resources.images.birdMonster],
+		frames: { width: 80, height: 80 },
+		animations: {
+			stay: 0,
+			fly: {
+				frames: [0,1,2,3,4,5,6,7,6,5,4,3,2,1],
+				speed: 0.4,
+			}
+		}
+	});
+	var createBird = function(x, y, isMonster){
 		var bird = new createjs.Container();
-		var birdPic = new createjs.Bitmap(game.resources.getResult('bird'));
+		var img = birdSprite;
+		if(isMonster) img = birdMonsterSprite;
+		var birdPic = new createjs.Sprite(img);
 		birdPic.x = -35;
+		if(isMonster) birdPic.x = -45;
 		birdPic.y = -50;
+		birdPic.gotoAndPlay('stay');
+		bird.ani = birdPic;
 		bird.addChild(birdPic);
 		bird.x = x;
 		bird.y = y;
 		return bird;
 	};
 	var girl = createGirl(design.start.x, design.start.y);
-	var birdEnd = createBird(design.end.x, design.end.y);
+	var birdEnd = createBird(design.end.x, design.end.y, design.end.isMonster);
+	if(!design.end.isMonster) {
+		birdEnd.alpha = 0.8;
+	} else {
+		birdEnd.scaleX = 1.1;
+		birdEnd.scaleY = 1.1;
+		birdEnd.ani.gotoAndPlay('fly');
+	}
 	var birdsLayer = new createjs.Container();
 	var badStarsLayer = new createjs.Container();
 	objectsLayer.addChild(girl, birdsLayer, birdEnd, badStarsLayer);
@@ -250,12 +287,14 @@ game.level = function(levelId){
 			} else {
 				girl.x += WALK_SPEED;
 				if(!walkSkipped) {
+					walkFrom.ani.gotoAndPlay('stay');
 					girl.sy = JUMP_SPEED - GRAVITY;
 					walkSkipped = true;
 				}
 				girl.sy += GRAVITY;
 				var newY = girl.y + girl.sy;
 				if( Math.abs(girl.x - walkTo.x) <= 20 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
+					walkTo.ani.gotoAndPlay('fly');
 					newY = walkTo.y;
 					girl.sy = 0;
 					girl.ani.gotoAndStop('right');
@@ -276,12 +315,14 @@ game.level = function(levelId){
 			} else {
 				girl.x -= WALK_SPEED;
 				if(!walkSkipped) {
+					walkFrom.ani.gotoAndPlay('stay');
 					girl.sy = JUMP_SPEED - GRAVITY;
 					walkSkipped = true;
 				}
 				girl.sy += GRAVITY;
 				var newY = girl.y + girl.sy;
 				if( Math.abs(girl.x - walkTo.x) <= 20 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
+					walkTo.ani.gotoAndPlay('fly');
 					newY = walkTo.y;
 					girl.sy = 0;
 					girl.ani.gotoAndStop('left');
@@ -344,7 +385,10 @@ game.level = function(levelId){
 		var bird = createBird(x, y);
 		birdsLayer.addChild(bird);
 		birds.push(bird);
-		if(isInit) return;
+		if(isInit) {
+			bird.ani.gotoAndPlay('fly');
+			return;
+		}
 		walkToBird(birds[birds.length - 2], bird);
 	};
 	createjs.Ticker.on('tick', function(){
@@ -363,6 +407,7 @@ game.level = function(levelId){
 	mouseLayer.addChild(birdPreview);
 	var slowingStar = -1;
 	stage.on('stagemousemove', function(e){
+		if(!design.end.isMonster) birdEnd.alpha = 0.8;
 		// on star
 		var p = starPlaced(e.stageX, e.stageY);
 		if(p >= 0) {
@@ -380,6 +425,7 @@ game.level = function(levelId){
 		p = birdPlaced(e.stageX, e.stageY);
 		if(p === 0) {
 			birdPreview.visible = false;
+			if(!design.end.isMonster) birdEnd.alpha = 1;
 		} else if(p === -1) {
 			birdPreview.visible = true;
 			birdPreview.x = e.stageX;
@@ -435,18 +481,34 @@ game.level = function(levelId){
 	});
 
 	// end level
+	var ended = false;
 	var endLevel = function(passed){
+		ended = true;
 		stage.removeAllEventListeners('stagemousedown');
 		stage.removeAllEventListeners('stagemousemove');
 		stage.removeAllEventListeners('stagemouseup');
 		stage.removeAllEventListeners('mouseout');
-		createjs.Ticker.on('tick', function(){
-			fadeInLayer.alpha += 0.04;
-			if(fadeInLayer.alpha >= 1) {
-				if(passed) game.level(levelId+1);
-				else game.level(levelId);
-			}
-		});
+		if(!design.end.isMonster || !passed) {
+			createjs.Ticker.on('tick', function(){
+				fadeInLayer.alpha += 0.04;
+				if(fadeInLayer.alpha >= 1) {
+					if(passed) game.level(levelId+1);
+					else game.level(levelId);
+				}
+			});
+		} else {
+			birdEnd.sy = 0;
+			createjs.Ticker.on('tick', function(){
+				birdEnd.sy += GRAVITY;
+				birdEnd.y += birdEnd.sy;
+				girl.x += WALK_SPEED;
+				girl.ani.gotoAndPlay('right');
+				fadeInLayer.alpha += 0.005;
+				if(fadeInLayer.alpha >= 1) {
+					game.level(levelId+1);
+				}
+			});
+		}
 	};
 
 	// update stage
