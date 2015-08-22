@@ -1,0 +1,20 @@
+{
+	"eqeqeq": true,
+	"freeze": true,
+	"immed": true,
+	"nocomma": true,
+	"noarg": true,
+	"nonbsp": true,
+	"nonew": true,
+	"undef": true,
+	"strict": true,
+	"latedef": "nofunc",
+	"globalstrict": true,
+	"shadow": true,
+	"browser": true,
+	"node": true,
+	"predef": [
+		"createjs",
+		"game"
+	]
+}

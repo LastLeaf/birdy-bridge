@@ -1,0 +1,121 @@
+game.main = function(){
+	'use strict';
+
+	// prepare stage
+	var stage = game.stage;
+	stage.removeAllChildren();
+	stage.removeAllEventListeners('stagemousedown');
+	stage.removeAllEventListeners('stagemousemove');
+	stage.removeAllEventListeners('stagemouseup');
+	stage.removeAllEventListeners('mouseout');
+	createjs.Ticker.removeAllEventListeners();
+	stage.enableMouseOver(30);
+
+	// read storage
+	game.storage = JSON.parse( localStorage['me.lastleaf.birdy-bridge'] || "{}" );
+	game.storageSave = function(){
+		localStorage['me.lastleaf.birdy-bridge'] = JSON.stringify(game.storage);
+	};
+
+	// logo
+	var logo = new createjs.Bitmap( game.resources.getResult('lastleaf'));
+	logo.x = 10;
+	logo.y = 400;
+	logo.scaleX = 0.5;
+	logo.scaleY = 0.5;
+	stage.addChild(logo);
+
+	// title
+	var title = new createjs.Bitmap( game.resources.getResult('title') );
+	title.x = 50;
+	title.y = 10;
+	stage.addChild(title);
+
+	// description
+	var desc0 = new createjs.Text('A Ludum Dare 33 Game', '16px "Noto Sans",sans', '#606060');
+	desc0.x = 780;
+	desc0.y = 410;
+	desc0.textAlign = 'right';
+	var desc1 = new createjs.Text('Inspired by Chinese folktale', '16px "Noto Sans",sans', '#808080');
+	desc1.x = 295;
+	desc1.y = 220;
+	desc1.textAlign = 'right';
+	var desc2 = new createjs.Text('The Weaver Girl and the Cowherd', 'italic 16px "Noto Sans",sans', '#808080');
+	desc2.x = 300;
+	desc2.y = 220;
+	desc2.textAlign = 'left';
+	desc2.on('mouseover', function(){
+		desc2.color = '#b0b0b0';
+	});
+	desc2.on('mouseout', function(){
+		desc2.color = '#808080';
+	});
+	desc2.on('click', function(){
+		window.open('https://en.wikipedia.org/wiki/The_Weaver_Girl_and_the_Cowherd', '_blank');
+	});
+	stage.addChild(desc0, desc1, desc2);
+
+	// levels
+	var birdsLoc = [
+		{x: 200, y: 380},
+		{x: 290, y: 360},
+		{x: 380, y: 345},
+		{x: 470, y: 335},
+		{x: 560, y: 328},
+		{x: 650, y: 323},
+		{x: 740, y: 320}
+	];
+	var girlSprite = new createjs.SpriteSheet({
+		images: [game.resources.getResult('girl')],
+		frames: { width: 30, height: 60 },
+		animations: {
+			right: 0,
+			goRight: 1,
+			goLeft: 2,
+			left: 3
+		}
+	});
+	var createGirl = function(x, y){
+		var girl = new createjs.Container();
+		var girlPic = new createjs.Sprite(girlSprite, 'right');
+		girl.ani = girlPic;
+		girlPic.x = 0;
+		girlPic.y = -30;
+		girlPic.regX = 15;
+		girlPic.regY = 30;
+		girl.addChild(girlPic);
+		girl.x = x;
+		girl.y = y;
+		return girl;
+	};
+	var createBird = function(x, y){
+		var bird = new createjs.Container();
+		var birdPic = new createjs.Bitmap(game.resources.getResult('bird'));
+		birdPic.x = -35;
+		birdPic.y = -50;
+		bird.addChild(birdPic);
+		bird.x = x;
+		bird.y = y;
+		return bird;
+	};
+	birdsLoc.forEach(function(pos, id){
+		var bird = createBird(pos.x, pos.y);
+		if((game.storage.currentLevel || 0) === id) {
+			stage.addChild( createGirl(pos.x, pos.y) );
+		}
+		if(id > (game.storage.reachedLevel || 0)) {
+			bird.alpha = 0.2;
+		}
+		bird.on('click', function(){
+			if(id) game.level(id);
+			else game.texts(game.prologue, function(){
+				game.level(0);
+			});
+		});
+		stage.addChild(bird);
+	});
+
+	createjs.Ticker.on('tick', function(){
+		stage.update();
+	});
+};
