@@ -11,7 +11,7 @@ game.main = function(){
 	createjs.Ticker.removeAllEventListeners();
 	stage.enableMouseOver(30);
 	game.sound.init();
-	game.sound.play(1, 100);
+	game.sound.play(1, 75);
 
 	// read storage
 	try {

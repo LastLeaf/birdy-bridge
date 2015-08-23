@@ -11,8 +11,10 @@ game.texts = function(prologue, cb){
 	game.sound.init();
 	game.sound.play(1, 50);
 
+	var lastText = null;
 	prologue.forEach(function(text, id){
 		var hint = new createjs.Text(text, '20px "Noto Sans",sans', '#b0b0b0');
+		lastText = hint;
 		hint.x = 50;
 		hint.y = 100 + id * 40;
 		hint.textAlign = 'left';
@@ -27,9 +29,8 @@ game.texts = function(prologue, cb){
 	createjs.Ticker.on('tick', function(){
 		stage.update();
 	});
-	setTimeout(function(){
-		stage.on('stagemousedown', function(){
-			cb();
-		});
-	}, 3000);
+	stage.on('stagemousedown', function(){
+		if(lastText.alpha < 1) return;
+		cb();
+	});
 };

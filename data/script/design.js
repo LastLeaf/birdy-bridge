@@ -1,15 +1,15 @@
 game.prologue = [
 	'The girl and the boy live in two ends of the sky.',
 	'There is no road connecting them.',
-	'However, lovers could meet each other on Qixi Festival.',
+	'However, lovers could reunite on Qixi Festival.',
 	'This day, birds gather together, building a path for the girl.',
 	'',
 	'Now you are the birds, guiding the girl to the boy.'
 ];
 
 game.epilogue = [
-	'The girl defeat the monster, but there are no birds now.',
-	'She just live in the monster\'s palace, alone.',
+	'The girl defeated the monster, but there were no birds anymore.',
+	'Now she lives in the monster\'s palace, alone.',
 	'...',
 	'What about the boy? Who knows.'
 ];
@@ -24,7 +24,7 @@ game.levelDesign = [
 		meteorShower: []
 	},
 	{
-		hint: 'There are bad stars in the sky. The girl won\'t touch them.',
+		hint: 'There are bad stars in the sky. The girl could not touch them.',
 		audio: 1,
 		start: { x: 50, y: 400 },
 		end: { x: 750, y: 100 },
@@ -36,7 +36,7 @@ game.levelDesign = [
 		meteorShower: []
 	},
 	{
-		hint: 'Bad stars would fade for a while if hold your mouse button on it.',
+		hint: 'Bad stars would fade for a while if you hold left mouse button on it.',
 		audio: 1,
 		start: { x: 50, y: 400 },
 		end: { x: 750, y: 100 },
@@ -67,7 +67,7 @@ game.levelDesign = [
 		]
 	},
 	{
-		hint: 'Dangerous is everywhere. Nobody fears.',
+		hint: 'Danger is everywhere. Nobody fears.',
 		audio: 2,
 		start: { x: 50, y: 350 },
 		end: { x: 750, y: 150 },
@@ -84,7 +84,7 @@ game.levelDesign = [
 		]
 	},
 	{
-		hint: 'But the girl wondered - the boy lives in this dangerous place???',
+		hint: 'But the girl wondered - why the boy lives in this dangerous place?',
 		audio: 2,
 		start: { x: 50, y: 350 },
 		end: { x: 750, y: 150 },
@@ -106,7 +106,7 @@ game.levelDesign = [
 		]
 	},
 	{
-		hint: 'Ahhhhhhhh there is the bird monster!!!',
+		hint: 'God! That is the bird monster!',
 		audio: 3,
 		start: { x: 50, y: 300 },
 		end: { x: 750, y: 200, isMonster: true },
