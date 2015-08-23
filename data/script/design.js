@@ -17,6 +17,7 @@ game.epilogue = [
 game.levelDesign = [
 	{
 		hint: 'Place a bird. The girl would try jumping onto it. Try moving to the rightmost.',
+		audio: 1,
 		start: { x: 200, y: 300 },
 		end: { x: 600, y: 150 },
 		badStars: [],
@@ -24,6 +25,7 @@ game.levelDesign = [
 	},
 	{
 		hint: 'There are bad stars in the sky. The girl won\'t touch them.',
+		audio: 1,
 		start: { x: 50, y: 400 },
 		end: { x: 750, y: 100 },
 		badStars: [
@@ -35,6 +37,7 @@ game.levelDesign = [
 	},
 	{
 		hint: 'Bad stars would fade for a while if holding with your mouse.',
+		audio: 1,
 		start: { x: 50, y: 400 },
 		end: { x: 750, y: 100 },
 		badStars: [
@@ -42,15 +45,16 @@ game.levelDesign = [
 			{ x: 160, y: 160, size: 100 },
 			{ x: 260, y: 260, size: 100 },
 			{ x: 360, y: 360, size: 100 },
-			{ x: 800 - 390, y: 60, size: 100 },
-			{ x: 800 - 290, y: 170, size: 100 },
-			{ x: 800 - 190, y: 280, size: 100 },
+			{ x: 800 - 390, y: 90, size: 100 },
+			{ x: 800 - 290, y: 190, size: 100 },
+			{ x: 800 - 190, y: 290, size: 100 },
 			{ x: 800 - 90, y: 390, size: 100 }
 		],
 		meteorShower: []
 	},
 	{
 		hint: 'Meteor shower is beautiful, and deadful.',
+		audio: 2,
 		start: { x: 50, y: 400 },
 		end: { x: 750, y: 100 },
 		badStars: [],
@@ -64,6 +68,7 @@ game.levelDesign = [
 	},
 	{
 		hint: 'Dangerous is everywhere. Nobody fears.',
+		audio: 2,
 		start: { x: 50, y: 350 },
 		end: { x: 750, y: 150 },
 		badStars: [
@@ -80,6 +85,7 @@ game.levelDesign = [
 	},
 	{
 		hint: 'But the girl wondered - the boy lives in this dangerous place?',
+		audio: 2,
 		start: { x: 50, y: 350 },
 		end: { x: 750, y: 150 },
 		badStars: [
@@ -101,6 +107,7 @@ game.levelDesign = [
 	},
 	{
 		hint: 'Ahhhhhhhh there is the bird monster!!!',
+		audio: 3,
 		start: { x: 50, y: 300 },
 		end: { x: 750, y: 200, isMonster: true },
 		badStars: [],

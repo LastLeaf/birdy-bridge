@@ -10,6 +10,8 @@ game.main = function(){
 	stage.removeAllEventListeners('mouseout');
 	createjs.Ticker.removeAllEventListeners();
 	stage.enableMouseOver(30);
+	game.sound.init();
+	game.sound.play(1, 100);
 
 	// read storage
 	try {
@@ -47,9 +49,9 @@ game.main = function(){
 	stage.addChild(title);
 
 	// description
-	var desc0 = new createjs.Text('A Ludum Dare 33 Game', '16px "Noto Sans",sans', '#606060');
-	desc0.x = 780;
-	desc0.y = 410;
+	var desc0 = new createjs.Text('Select a bird to start...', '18px "Noto Sans",sans', '#808080');
+	desc0.x = 750;
+	desc0.y = 400;
 	desc0.textAlign = 'right';
 	var desc1 = new createjs.Text('Inspired by Chinese folktale', '16px "Noto Sans",sans', '#808080');
 	desc1.x = 295;

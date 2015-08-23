@@ -8,6 +8,7 @@ game.level = function(levelId){
 	stage.removeAllEventListeners('stagemouseup');
 	stage.removeAllEventListeners('mouseout');
 	createjs.Ticker.removeAllEventListeners();
+	game.sound.init();
 
 	var design = game.levelDesign[levelId];
 	game.storage.currentLevel = levelId;
@@ -19,6 +20,7 @@ game.level = function(levelId){
 		});
 		return;
 	}
+	game.sound.play(design.audio, 50);
 
 	var backgroundLayer = new createjs.Container();
 	backgroundLayer.mouseEnabled = false;

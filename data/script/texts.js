@@ -8,6 +8,8 @@ game.texts = function(prologue, cb){
 	stage.removeAllEventListeners('stagemouseup');
 	stage.removeAllEventListeners('mouseout');
 	createjs.Ticker.removeAllEventListeners();
+	game.sound.init();
+	game.sound.play(1, 50);
 
 	prologue.forEach(function(text, id){
 		var hint = new createjs.Text(text, '20px "Noto Sans",sans', '#b0b0b0');
