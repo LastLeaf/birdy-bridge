@@ -14,16 +14,18 @@ game.main = function(){
 	game.sound.play(1, 75);
 
 	// read storage
-	try {
-		game.storage = JSON.parse( localStorage['me.lastleaf.birdy-bridge'] || "{}" );
-	} catch(e) {
-		game.storage = {};
-	}
-	game.storageSave = function(){
+	if(!game.storage) {
 		try {
-			localStorage['me.lastleaf.birdy-bridge'] = JSON.stringify(game.storage);
-		} catch(e) {}
-	};
+			game.storage = JSON.parse( localStorage['me.lastleaf.birdy-bridge'] || "{}" );
+		} catch(e) {
+			game.storage = {};
+		}
+		game.storageSave = function(){
+			try {
+				localStorage['me.lastleaf.birdy-bridge'] = JSON.stringify(game.storage);
+			} catch(e) {}
+		};
+	}
 
 	// background
 	var bg = new createjs.Bitmap( game.resources.getResult('backgroundTitle') );
