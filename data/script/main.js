@@ -23,8 +23,15 @@ game.main = function(){
 		} catch(e) {}
 	};
 
+	// background
+	var bg = new createjs.Bitmap( game.resources.getResult('backgroundTitle') );
+	bg.x = 200;
+	bg.y = 0;
+	bg.alpha = 0.7;
+	stage.addChild(bg);
+
 	// logo
-	var logo = new createjs.Bitmap( game.resources.getResult('lastleaf'));
+	var logo = new createjs.Bitmap( game.resources.getResult('lastleaf') );
 	logo.x = 10;
 	logo.y = 400;
 	logo.scaleX = 0.5;
@@ -33,8 +40,10 @@ game.main = function(){
 
 	// title
 	var title = new createjs.Bitmap( game.resources.getResult('title') );
-	title.x = 50;
-	title.y = 10;
+	title.x = 70;
+	title.y = 60;
+	title.scaleX = 0.8;
+	title.scaleY = 0.8;
 	stage.addChild(title);
 
 	// description
@@ -44,11 +53,11 @@ game.main = function(){
 	desc0.textAlign = 'right';
 	var desc1 = new createjs.Text('Inspired by Chinese folktale', '16px "Noto Sans",sans', '#808080');
 	desc1.x = 295;
-	desc1.y = 220;
+	desc1.y = 230;
 	desc1.textAlign = 'right';
 	var desc2 = new createjs.Text('The Weaver Girl and the Cowherd', 'italic 16px "Noto Sans",sans', '#808080');
 	desc2.x = 300;
-	desc2.y = 220;
+	desc2.y = 230;
 	desc2.textAlign = 'left';
 	desc2.on('mouseover', function(){
 		desc2.color = '#b0b0b0';
@@ -63,13 +72,13 @@ game.main = function(){
 
 	// levels
 	var birdsLoc = [
-		{x: 200, y: 380},
-		{x: 290, y: 360},
-		{x: 380, y: 345},
-		{x: 470, y: 335},
-		{x: 560, y: 328},
-		{x: 650, y: 323},
-		{x: 740, y: 320}
+		{x: 200, y: 390},
+		{x: 290, y: 370},
+		{x: 380, y: 355},
+		{x: 470, y: 345},
+		{x: 560, y: 338},
+		{x: 650, y: 333},
+		{x: 740, y: 330}
 	];
 	var girlSprite = new createjs.SpriteSheet({
 		images: [game.resources.getResult('girl')],

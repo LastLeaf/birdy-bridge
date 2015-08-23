@@ -28,6 +28,38 @@ game.level = function(levelId){
 	var fadeInLayer = new createjs.Container();
 	stage.addChild(backgroundLayer, objectsLayer, mouseLayer, fadeInLayer);
 
+	// buttons
+	var createButton = function(text, x, y, cb){
+		var menuButton = new createjs.Text(text, '12px "Noto Sans",sans', '#fff');
+		menuButton.alpha = 0.5;
+		menuButton.lineHeight = 20;
+		menuButton.textBaseline = 'middle';
+		menuButton.textAlign = 'center';
+		var menuButtonWrapper = new createjs.Container();
+		var menuButtonShape = new createjs.Shape();
+		menuButtonShape.graphics.f('#000').r(-10,-10,20,20);
+		menuButtonWrapper.x = x;
+		menuButtonWrapper.y = y;
+		menuButtonWrapper.addChild(menuButtonShape, menuButton);
+		mouseLayer.addChild(menuButtonWrapper);
+		menuButtonWrapper.on('mouseover', function(){
+			menuButton.alpha = 1;
+		});
+		menuButtonWrapper.on('mouseout', function(){
+			menuButton.alpha = 0.5;
+		});
+		menuButtonWrapper.on('click', cb);
+		return menuButtonWrapper;
+	};
+	createButton('M', 20, 440, function(){
+		if(ended) return;
+		game.main();
+	});
+	createButton('R', 40, 440, function(){
+		if(ended) return;
+		endLevel(false);
+	});
+
 	// fade in
 	var fadeShape = new createjs.Shape();
 	fadeShape.graphics.f('#000').r(0,0,800,450);
@@ -101,7 +133,16 @@ game.level = function(levelId){
 		}
 		var loopTicks = Math.round(len / speed);
 		var curTick = loopTicks;
+		if(x2 === null) {
+			badStar.x = -1000;
+			badStar.y = -1000;
+			curTick += 120;
+		}
 		createjs.Ticker.on('tick', function(){
+			if(curTick > loopTicks) {
+				curTick--;
+				return;
+			}
 			if(curTick === loopTicks) {
 				if(ended) return;
 				curTick = 0;
@@ -192,10 +233,31 @@ game.level = function(levelId){
 		birdEnd.scaleX = 1.1;
 		birdEnd.scaleY = 1.1;
 		birdEnd.ani.gotoAndPlay('fly');
+		var monsterYMin = birdEnd.y - 60;
+		var monsterYMax = birdEnd.y + 60;
+		var monsterYDir = -1;
+		createjs.Ticker.on('tick', function(){
+			if(ended) return;
+			if(birdEnd.y > monsterYMax) monsterYDir = -1;
+			if(birdEnd.y < monsterYMin) monsterYDir = 1;
+			birdEnd.y += monsterYDir;
+		});
 	}
 	var birdsLayer = new createjs.Container();
 	var badStarsLayer = new createjs.Container();
 	objectsLayer.addChild(girl, birdsLayer, birdEnd, badStarsLayer);
+
+	// background
+	var bgImg = game.resources.images['background' + levelId] || game.resources.images.background;
+	var bg = new createjs.Bitmap( bgImg );
+	bg.x = girl.x / 8 + 50*levelId - 400;
+	bg.y = 0;
+	bg.alpha = 0.6;
+	backgroundLayer.addChild(bg);
+	createjs.Ticker.on('tick', function(){
+		var targetX = girl.x / 8 + 50*levelId - 400;
+		if(bg.x !== targetX) bg.x = bg.x * 0.97 + targetX * 0.03;
+	});
 
 	// draw bad stars
 	var badStars = [];

@@ -16,7 +16,7 @@ game.epilogue = [
 
 game.levelDesign = [
 	{
-		hint: 'Place a bird. The girl would try jumping onto it. Try moving to the rightmost bird.',
+		hint: 'Place a bird. The girl would try jumping onto it. Try moving to the rightmost.',
 		start: { x: 200, y: 300 },
 		end: { x: 600, y: 150 },
 		badStars: [],
@@ -39,13 +39,13 @@ game.levelDesign = [
 		end: { x: 750, y: 100 },
 		badStars: [
 			{ x: 60, y: 60, size: 100 },
-			{ x: 170, y: 170, size: 100 },
-			{ x: 280, y: 280, size: 100 },
-			{ x: 390, y: 390, size: 100 },
+			{ x: 160, y: 160, size: 100 },
+			{ x: 260, y: 260, size: 100 },
+			{ x: 360, y: 360, size: 100 },
 			{ x: 800 - 390, y: 60, size: 100 },
-			{ x: 800 - 280, y: 170, size: 100 },
-			{ x: 800 - 170, y: 280, size: 100 },
-			{ x: 800 - 60, y: 390, size: 100 }
+			{ x: 800 - 290, y: 170, size: 100 },
+			{ x: 800 - 190, y: 280, size: 100 },
+			{ x: 800 - 90, y: 390, size: 100 }
 		],
 		meteorShower: []
 	},
@@ -103,9 +103,7 @@ game.levelDesign = [
 		hint: 'Ahhhhhhhh there is the bird monster!!!',
 		start: { x: 50, y: 300 },
 		end: { x: 750, y: 200, isMonster: true },
-		badStars: [
-			{ x: 400, y: 225, size: 200 }
-		],
+		badStars: [],
 		meteorShower: [
 			{ x1: 700, y1: 180, x2: null, y2: null, size: 40, speed: 5, minLen: 1200 }
 		]

@@ -9,6 +9,8 @@
 	var resources = [
 		{id: 'lastleaf', src: 'image/lastleaf.png'},
 		{id: 'title', src: 'image/title.png'},
+		{id: 'background', src: 'image/background.png'},
+		{id: 'backgroundTitle', src: 'image/background_title.png'},
 		{id: 'girl', src: 'image/girl.png'},
 		{id: 'badStar', src: 'image/bad_star.png'},
 		{id: 'bird', src: 'image/bird.png'},
@@ -23,6 +25,7 @@
 	var processImages = function(cb){
 		var images = game.resources.images = {};
 		images.bird = game.resources.getResult('bird');
+		images.background = game.resources.getResult('background');
 		var pendingCount = 1;
 		var pendingAdd = function(){
 			pendingCount ++;
@@ -37,8 +40,35 @@
 			images.birdMonsterTitle = img;
 			pendingEnd();
 		});
+		pendingAdd();
 		imgprocessor(images.bird).mirror(0).monochrome().mozaic(4).histogramEqualization().toCanvas(function(img){
 			images.birdMonster = img;
+			pendingEnd();
+		});
+		// background
+		pendingAdd();
+		imgprocessor(images.background).noiceGauss(50).toCanvas(function(img){
+			images.background2 = img;
+			pendingEnd();
+		});
+		pendingAdd();
+		imgprocessor(images.background).noiceGauss(100).toCanvas(function(img){
+			images.background3 = img;
+			pendingEnd();
+		});
+		pendingAdd();
+		imgprocessor(images.background).noiceGauss(100).noiceTwoValue(50).toCanvas(function(img){
+			images.background4 = img;
+			pendingEnd();
+		});
+		pendingAdd();
+		imgprocessor(images.background).noiceGauss(100).noiceTwoValue(100).toCanvas(function(img){
+			images.background5 = img;
+			pendingEnd();
+		});
+		pendingAdd();
+		imgprocessor(images.background).mozaic(10).noiceGauss(100).noiceTwoValue(100).toCanvas(function(img){
+			images.background6 = img;
 			pendingEnd();
 		});
 		pendingEnd();
