@@ -251,7 +251,7 @@ game.level = function(levelId){
 	var bg = new createjs.Bitmap( bgImg );
 	bg.x = girl.x / 8 + 50*levelId - 400;
 	bg.y = 0;
-	bg.alpha = 0.6;
+	bg.alpha = 0.7;
 	backgroundLayer.addChild(bg);
 	createjs.Ticker.on('tick', function(){
 		var targetX = girl.x / 8 + 50*levelId - 400;
