@@ -95,28 +95,32 @@
 		game.stage.update();
 	});
 
-	var queue = game.resources = new createjs.LoadQueue(true, 'data/');
-	createjs.Sound.alternateExtensions = ['mp3'];
-	queue.installPlugin(createjs.Sound);
-	queue.on('progress', function(e){
-		progressText.text = document.title = 'Loading... ' + Math.round(e.progress*100) + '%';
-	});
-	queue.on('complete', function(){
-		progressText.text = document.title = 'Processing...';
-		processImages(function(){
-			document.title = game.TITLE;
-			// detect localStorage
-			try {
-				if(!localStorage['me.lastleaf.birdy-bridge']) {
-					localStorage['me.lastleaf.birdy-bridge'] = "{}";
-					if(localStorage['me.lastleaf.birdy-bridge.test'] !== "{}") throw new Error();
-				}
-			} catch(e) {
-				document.getElementById('storageHint').style.display = 'block';
-				return;
-			}
-			game.main();
+	game.load = function(){
+		var queue = game.resources = new createjs.LoadQueue(true, 'data/');
+		createjs.Sound.alternateExtensions = ['mp3'];
+		queue.installPlugin(createjs.Sound);
+		queue.on('progress', function(e){
+			progressText.text = document.title = 'Loading... ' + Math.round(e.progress*100) + '%';
 		});
-	});
-	queue.loadManifest(resources);
+		queue.on('complete', function(){
+			progressText.text = document.title = 'Processing...';
+			processImages(function(){
+				document.title = game.TITLE;
+				game.main();
+			});
+		});
+		queue.loadManifest(resources);
+	};
+
+	// detect localStorage
+	try {
+		if(!localStorage['me.lastleaf.birdy-bridge']) {
+			localStorage['me.lastleaf.birdy-bridge'] = "{}";
+			if(localStorage['me.lastleaf.birdy-bridge.test'] !== "{}") throw new Error();
+		}
+	} catch(e) {
+		document.getElementById('storageHint').style.display = 'block';
+		return;
+	}
+	game.load();
 })();
