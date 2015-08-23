@@ -204,9 +204,9 @@ game.level = function(levelId){
 		images: [game.resources.images.birdMonster],
 		frames: { width: 80, height: 80 },
 		animations: {
-			stay: 0,
+			stay: 8,
 			fly: {
-				frames: [0,1,2,3,4,5,6,7,6,5,4,3,2,1],
+				frames: [2,3,4,5,6,7,8,7,6,5,4,3,2,1],
 				speed: 0.4,
 			}
 		}
@@ -358,6 +358,12 @@ game.level = function(levelId){
 				girl.sy += GRAVITY;
 				var newY = girl.y + girl.sy;
 				if( Math.abs(girl.x - walkTo.x) <= 20 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
+					var seNum = Math.ceil((400 - walkTo.y) / 60);
+					if(levelId === 0) seNum = Math.ceil((300 - walkTo.y) / 45);
+					if(seNum < 1) seNum = 1;
+					else if(seNum > 6) seNum = 6;
+					if(walkTo === birdEnd) seNum = 7;
+					game.sound.playSe(seNum, 75);
 					walkTo.ani.gotoAndPlay('fly');
 					newY = walkTo.y;
 					girl.sy = 0;
@@ -386,6 +392,12 @@ game.level = function(levelId){
 				girl.sy += GRAVITY;
 				var newY = girl.y + girl.sy;
 				if( Math.abs(girl.x - walkTo.x) <= 20 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
+					var seNum = Math.ceil((400 - walkTo.y) / 60);
+					if(levelId === 0) seNum = Math.ceil((300 - walkTo.y) / 45);
+					if(seNum < 1) seNum = 1;
+					else if(seNum > 6) seNum = 6;
+					if(walkTo === birdEnd) seNum = 7;
+					game.sound.playSe(seNum, 75);
 					walkTo.ani.gotoAndPlay('fly');
 					newY = walkTo.y;
 					girl.sy = 0;

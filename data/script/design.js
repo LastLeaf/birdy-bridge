@@ -36,7 +36,7 @@ game.levelDesign = [
 		meteorShower: []
 	},
 	{
-		hint: 'Bad stars would fade for a while if holding with your mouse.',
+		hint: 'Bad stars would fade for a while if hold your mouse button on it.',
 		audio: 1,
 		start: { x: 50, y: 400 },
 		end: { x: 750, y: 100 },

@@ -40,6 +40,9 @@
 		},
 		muted: function(){
 			return createjs.Sound.muted;
+		},
+		playSe: function(num, vol){
+			createjs.Sound.play('se' + num, 'none', 0, 0, 0, vol/100);
 		}
 	};
 })();
