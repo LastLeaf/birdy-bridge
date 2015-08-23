@@ -28,7 +28,8 @@ game.level = function(levelId){
 	objectsLayer.mouseEnabled = false;
 	var mouseLayer = new createjs.Container();
 	var fadeInLayer = new createjs.Container();
-	stage.addChild(backgroundLayer, objectsLayer, mouseLayer, fadeInLayer);
+	var hintLayer = new createjs.Container();
+	stage.addChild(backgroundLayer, objectsLayer, mouseLayer, hintLayer, fadeInLayer);
 
 	// buttons
 	var createButton = function(text, x, y, cb){
@@ -82,7 +83,7 @@ game.level = function(levelId){
 	hint.x = 400;
 	hint.y = 420;
 	hint.textAlign = 'center';
-	stage.addChild(hint);
+	hintLayer.addChild(hint);
 
 	// basic objects
 	var badStarSprite = new createjs.SpriteSheet({
@@ -192,6 +193,7 @@ game.level = function(levelId){
 		frames: { width: 80, height: 80 },
 		animations: {
 			stay: 0,
+			glow: 8,
 			fly: {
 				frames: [0,1,2,3,4,5,6,7,6,5,4,3,2,1],
 				speed: 0.4,
@@ -227,7 +229,7 @@ game.level = function(levelId){
 	var girl = createGirl(design.start.x, design.start.y);
 	var birdEnd = createBird(design.end.x, design.end.y, design.end.isMonster);
 	if(!design.end.isMonster) {
-		birdEnd.alpha = 0.8;
+		birdEnd.alpha = 0.7;
 	} else {
 		birdEnd.scaleX = 1.1;
 		birdEnd.scaleY = 1.1;
@@ -465,11 +467,14 @@ game.level = function(levelId){
 
 	// mouse events
 	var birdPreview = createBird(-1000, -1000);
+	birdPreview.ani.gotoAndStop('glow');
 	birdPreview.alpha = 0.5;
 	mouseLayer.addChild(birdPreview);
 	var slowingStar = -1;
 	stage.on('stagemousemove', function(e){
-		if(!design.end.isMonster) birdEnd.alpha = 0.8;
+		if(!design.end.isMonster) {
+			birdEnd.alpha = 0.7;
+		}
 		// on star
 		var p = starPlaced(e.stageX, e.stageY);
 		if(p >= 0) {
@@ -487,7 +492,9 @@ game.level = function(levelId){
 		p = birdPlaced(e.stageX, e.stageY);
 		if(p === 0) {
 			birdPreview.visible = false;
-			if(!design.end.isMonster) birdEnd.alpha = 1;
+			if(!design.end.isMonster) {
+				birdEnd.alpha = 1;
+			}
 		} else if(p === -1) {
 			birdPreview.visible = true;
 			birdPreview.x = e.stageX;
