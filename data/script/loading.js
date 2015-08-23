@@ -95,20 +95,6 @@
 		game.stage.update();
 	});
 
-	// detect localStorage
-	try {
-		if(!localStorage['me.lastleaf.birdy-bridge']) {
-			localStorage['me.lastleaf.birdy-bridge'] = "{}";
-			if(localStorage['me.lastleaf.birdy-bridge.test'] !== "{}") throw new Error();
-		}
-	} catch(e) {
-		progressText.text = 'Security policy prevented playing. Click here to play in new window.';
-		game.stage.on('stagemouseup', function(){
-			window.open(location.href, '_blank');
-		});
-		return;
-	}
-
 	var queue = game.resources = new createjs.LoadQueue(true, 'data/');
 	createjs.Sound.alternateExtensions = ['mp3'];
 	queue.installPlugin(createjs.Sound);
@@ -119,6 +105,17 @@
 		progressText.text = document.title = 'Processing...';
 		processImages(function(){
 			document.title = game.TITLE;
+			// detect localStorage
+			try {
+				if(!localStorage['me.lastleaf.birdy-bridge']) {
+					localStorage['me.lastleaf.birdy-bridge'] = "{}";
+					if(localStorage['me.lastleaf.birdy-bridge.test'] !== "{}") throw new Error();
+				}
+				throw new Error();
+			} catch(e) {
+				document.getElementById('storageHint').style.display = 'block';
+				return;
+			}
 			game.main();
 		});
 	});

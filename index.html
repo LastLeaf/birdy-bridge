@@ -22,5 +22,10 @@
 		<canvas id="stage" width="800" height="450" style="position:fixed; top:0; right:0; left:0; bottom:0; margin:auto"></canvas>
 		<script src="data/script/createjs-2015.05.21.min.js"></script>
 		<script src="data/script/loading.js"></script>
+		<div id="storageHint" style="position:fixed; top:0; right:0; left:0; bottom:0; background:rgba(0,0,0,0.8); color:#fff; padding:100px; text-align:center; font-size:20px; display:none">
+			<p>Browser prevented storing game progress in this page. You can</p>
+			<p><a style="color:#fff" href="javascript:void( window.open(location.href) )">Play in new page</a></p>
+			<p><a style="color:#fff" href="javascript:void( document.getElementById('storageHint').style.display='none', setTimeout(game.main, 0) )">Continue play without storing progress</a></p>
+		</div>
 	</body>
 </html>
