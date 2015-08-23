@@ -38,6 +38,16 @@ game.main = function(){
 	logo.y = 400;
 	logo.scaleX = 0.5;
 	logo.scaleY = 0.5;
+	logo.alpha = 0.8;
+	logo.on('mouseover', function(){
+		logo.alpha = 1;
+	});
+	logo.on('mouseout', function(){
+		logo.alpha = 0.8;
+	});
+	logo.on('click', function(){
+		window.open('http://github.com/LastLeaf', '_blank');
+	});
 	stage.addChild(logo);
 
 	// title
@@ -71,6 +81,37 @@ game.main = function(){
 		window.open('https://en.wikipedia.org/wiki/The_Weaver_Girl_and_the_Cowherd', '_blank');
 	});
 	stage.addChild(desc0, desc1, desc2);
+
+	// mute
+	var createButton = function(text, x, y, cb){
+		var menuButton = new createjs.Text(text, '18px "Noto Sans",sans', '#fff');
+		menuButton.alpha = 0.5;
+		menuButton.lineHeight = 30;
+		menuButton.textBaseline = 'middle';
+		menuButton.textAlign = 'center';
+		var menuButtonWrapper = new createjs.Container();
+		var menuButtonShape = new createjs.Shape();
+		menuButtonShape.graphics.f('#000').r(-50,-15,100,30);
+		menuButtonWrapper.x = x;
+		menuButtonWrapper.y = y;
+		menuButtonWrapper.addChild(menuButtonShape, menuButton);
+		stage.addChild(menuButtonWrapper);
+		menuButtonWrapper.on('mouseover', function(){
+			menuButton.alpha = 1;
+		});
+		menuButtonWrapper.on('mouseout', function(){
+			menuButton.alpha = 0.5;
+		});
+		menuButtonWrapper.on('click', cb);
+		return menuButtonWrapper;
+	};
+	var mute = createButton( game.sound.muted() ? 'Music: Off' : 'Music: On', 480, 410, function(){
+		if(game.sound.muteToggle()) {
+			mute.getChildAt(1).text = 'Music: Off';
+		} else {
+			mute.getChildAt(1).text = 'Music: On';
+		}
+	});
 
 	// levels
 	var birdsLoc = [
@@ -127,7 +168,7 @@ game.main = function(){
 			}
 		}
 	});
-	var createBird = function(x, y, monochrome){
+	var createBird = function(x, y, monochrome, id){
 		var bird = new createjs.Container();
 		var img = birdSprite;
 		if(monochrome) img = birdMtSprite;
@@ -135,19 +176,21 @@ game.main = function(){
 		birdPic.x = -35;
 		birdPic.y = -50;
 		birdPic.gotoAndPlay('stay');
-		birdPic.on('mouseover', function(){
-			birdPic.gotoAndPlay('fly');
-		});
-		birdPic.on('mouseout', function(){
-			birdPic.gotoAndPlay('stay');
-		});
+		if(id <= (game.storage.reachedLevel || 0) + 1) {
+			birdPic.on('mouseover', function(){
+				birdPic.gotoAndPlay('fly');
+			});
+			birdPic.on('mouseout', function(){
+				birdPic.gotoAndPlay('stay');
+			});
+		}
 		bird.addChild(birdPic);
 		bird.x = x;
 		bird.y = y;
 		return bird;
 	};
 	birdsLoc.forEach(function(pos, id){
-		var bird = createBird(pos.x, pos.y, id === 6);
+		var bird = createBird(pos.x, pos.y, id === 6, id);
 		if((game.storage.currentLevel || 0) === id) {
 			stage.addChild( createGirl(pos.x, pos.y) );
 		}
@@ -155,8 +198,10 @@ game.main = function(){
 			bird.alpha = 0.2;
 		}
 		bird.on('click', function(){
-			if(id > (game.storage.reachedLevel || 0)) {
-				if(!confirm('This level is locked. Do you REALLY want to play it?')) return;
+			if(id === (game.storage.reachedLevel || 0) + 1) {
+				if(!window.confirm('This level is locked. Do you REALLY want to play it?')) return;
+			} else if(id > (game.storage.reachedLevel || 0)) {
+				return;
 			}
 			if(id) game.level(id);
 			else game.texts(game.prologue, function(){

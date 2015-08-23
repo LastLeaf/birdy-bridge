@@ -16,7 +16,7 @@ game.epilogue = [
 
 game.levelDesign = [
 	{
-		hint: 'Place a bird. The girl would try jumping onto it. Try moving to the rightmost.',
+		hint: 'Place a bird. The girl will try jumping onto it. Try moving to the rightmost.',
 		audio: 1,
 		start: { x: 200, y: 300 },
 		end: { x: 600, y: 150 },
@@ -84,7 +84,7 @@ game.levelDesign = [
 		]
 	},
 	{
-		hint: 'But the girl wondered - the boy lives in this dangerous place?',
+		hint: 'But the girl wondered - the boy lives in this dangerous place???',
 		audio: 2,
 		start: { x: 50, y: 350 },
 		end: { x: 750, y: 150 },

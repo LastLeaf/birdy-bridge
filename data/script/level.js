@@ -53,13 +53,17 @@ game.level = function(levelId){
 		menuButtonWrapper.on('click', cb);
 		return menuButtonWrapper;
 	};
-	createButton('M', 20, 440, function(){
+	createButton('T', 20, 440, function(){
 		if(ended) return;
 		game.main();
 	});
 	createButton('R', 40, 440, function(){
 		if(ended) return;
 		endLevel(false);
+	});
+	createButton('M', 60, 440, function(){
+		if(ended) return;
+		game.sound.muteToggle();
 	});
 
 	// fade in
@@ -78,13 +82,6 @@ game.level = function(levelId){
 	hint.x = 400;
 	hint.y = 420;
 	hint.textAlign = 'center';
-	var hintAlpha = 600;
-	createjs.Ticker.on('tick', function(){
-		if(hintAlpha < 0) return;
-		hintAlpha--;
-		hint.alpha = hintAlpha / 60;
-		if(hintAlpha === 0) stage.removeChild(hint);
-	});
 	stage.addChild(hint);
 
 	// basic objects
@@ -331,6 +328,7 @@ game.level = function(levelId){
 		}
 		var min = (toBird.x - girl.x) * walkDir - 20;
 		var max = min + 40;
+		if(dx2 >= 1000000) dx = dx1;
 		if(dx < min) walkSkipFrom = fromBird.x + walkDir * 20;
 		else if(dx > max) walkSkipFrom = girl.x;
 		else walkSkipFrom = girl.x + walkDir * ((max + dx) / 2 - dx);

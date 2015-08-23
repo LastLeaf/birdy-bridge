@@ -33,6 +33,13 @@
 			if(curAudio === num) return;
 			fadingOut = true;
 			curAudio = num;
+		},
+		muteToggle: function(){
+			createjs.Sound.muted = !createjs.Sound.muted;
+			return createjs.Sound.muted;
+		},
+		muted: function(){
+			return createjs.Sound.muted;
 		}
 	};
 })();
