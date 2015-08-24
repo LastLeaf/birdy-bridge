@@ -1,6 +1,6 @@
 # Birdy Bridge #
 
-It is my Ludum Dare 33 Game, made in 48 hours. The Ludum Dare entry is [here](http://ludumdare.com/compo/ludum-dare-33/?action=preview&uid=47265).
+It is my Ludum Dare 33 Game. [v1.0.0](https://github.com/LastLeaf/birdy-bridge/releases/tag/v1.0.0) was made in 48 hours. The Ludum Dare entry is [here](http://ludumdare.com/compo/ludum-dare-33/?action=preview&uid=47265).
 
 This game is inspired by the Chinese folktale *[The Weaver Girl and the Cowherd](https://en.wikipedia.org/wiki/The_Weaver_Girl_and_the_Cowherd)*.
 

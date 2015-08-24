@@ -115,7 +115,7 @@
 	// detect localStorage
 	try {
 		if(!localStorage['me.lastleaf.birdy-bridge']) {
-			localStorage['me.lastleaf.birdy-bridge'] = "{}";
+			localStorage['me.lastleaf.birdy-bridge.test'] = "{}";
 			if(localStorage['me.lastleaf.birdy-bridge.test'] !== "{}") throw new Error();
 		}
 	} catch(e) {

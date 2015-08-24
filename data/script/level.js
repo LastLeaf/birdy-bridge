@@ -321,17 +321,17 @@ game.level = function(levelId){
 		var dxA = dx1 - dx2;
 		var dx = dx1 + dx2;
 		if(dxA > 0) {
-			var min = (toBird.x - girl.x) * walkDir - 20;
+			var min = (toBird.x - girl.x) * walkDir - 23;
 			var max = min + 40;
 			if(dxA >= min && dxA <= max) {
 				walkSkipFrom = fromBird.x + walkDir * ((max + dxA) / 2 - dxA);
 				return;
 			}
 		}
-		var min = (toBird.x - girl.x) * walkDir - 20;
+		var min = (toBird.x - girl.x) * walkDir - 23;
 		var max = min + 40;
 		if(dx2 >= 1000000) dx = dx1;
-		if(dx < min) walkSkipFrom = fromBird.x + walkDir * 20;
+		if(dx < min) walkSkipFrom = fromBird.x + walkDir * 23;
 		else if(dx > max) walkSkipFrom = girl.x;
 		else walkSkipFrom = girl.x + walkDir * ((max + dx) / 2 - dx);
 	};
@@ -346,7 +346,7 @@ game.level = function(levelId){
 			return;
 		}
 		if(walkDir > 0) {
-			if(girl.x < walkSkipFrom && girl.x < walkFrom.x + 20) {
+			if(girl.x < walkSkipFrom && girl.x < walkFrom.x + 23) {
 				girl.x += WALK_SPEED;
 			} else {
 				girl.x += WALK_SPEED;
@@ -357,7 +357,7 @@ game.level = function(levelId){
 				}
 				girl.sy += GRAVITY;
 				var newY = girl.y + girl.sy;
-				if( Math.abs(girl.x - walkTo.x) <= 20 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
+				if( Math.abs(girl.x - walkTo.x) <= 23 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
 					var seNum = Math.ceil((400 - walkTo.y) / 60);
 					if(levelId === 0) seNum = Math.ceil((300 - walkTo.y) / 45);
 					if(seNum < 1) seNum = 1;
@@ -380,7 +380,7 @@ game.level = function(levelId){
 				}
 			}
 		} else if(walkDir < 0) {
-			if(girl.x > walkSkipFrom && girl.x > walkFrom.x - 20) {
+			if(girl.x > walkSkipFrom && girl.x > walkFrom.x - 23) {
 				girl.x -= WALK_SPEED;
 			} else {
 				girl.x -= WALK_SPEED;
@@ -391,7 +391,7 @@ game.level = function(levelId){
 				}
 				girl.sy += GRAVITY;
 				var newY = girl.y + girl.sy;
-				if( Math.abs(girl.x - walkTo.x) <= 20 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
+				if( Math.abs(girl.x - walkTo.x) <= 23 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
 					var seNum = Math.ceil((400 - walkTo.y) / 60);
 					if(levelId === 0) seNum = Math.ceil((300 - walkTo.y) / 45);
 					if(seNum < 1) seNum = 1;
