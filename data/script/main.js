@@ -1,6 +1,9 @@
 game.main = function(){
 	'use strict';
 
+	// detect game mode
+	game.easyMode = (location.hash === '#easy');
+
 	// prepare stage
 	var stage = game.stage;
 	stage.removeAllChildren();
@@ -83,6 +86,15 @@ game.main = function(){
 		window.open('https://en.wikipedia.org/wiki/The_Weaver_Girl_and_the_Cowherd', '_blank');
 	});
 	stage.addChild(desc0, desc1, desc2);
+
+	// easy mode hint
+	if(game.easyMode) {
+		var easyModeHint = new createjs.Text('Easy Mode', '20px "Noto Sans",sans', '#f88');
+		easyModeHint.x = 790;
+		easyModeHint.y = 10;
+		easyModeHint.textAlign = 'right';
+		stage.addChild(easyModeHint);
+	}
 
 	// mute
 	var createButton = function(text, x, y, cb){

@@ -318,18 +318,16 @@ game.level = function(levelId){
 			var dt2 = Math.sqrt(2 * dy2 / GRAVITY);
 			dx2 = dt2 * WALK_SPEED;
 		}
+		var min = (toBird.x - fromBird.x) * walkDir - 44;
+		var max = (toBird.x - girl.x) * walkDir + 22;
 		var dxA = dx1 - dx2;
 		var dx = dx1 + dx2;
 		if(dxA > 0) {
-			var min = (toBird.x - girl.x) * walkDir - 23;
-			var max = min + 40;
 			if(dxA >= min && dxA <= max) {
 				walkSkipFrom = fromBird.x + walkDir * ((max + dxA) / 2 - dxA);
 				return;
 			}
 		}
-		var min = (toBird.x - girl.x) * walkDir - 23;
-		var max = min + 40;
 		if(dx2 >= 1000000) dx = dx1;
 		if(dx < min) walkSkipFrom = fromBird.x + walkDir * 23;
 		else if(dx > max) walkSkipFrom = girl.x;
