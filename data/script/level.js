@@ -67,6 +67,35 @@ game.level = function(levelId){
 		game.sound.muteToggle();
 	});
 
+	// display hearts for easy mode
+	var heartsLayer = new createjs.Container();
+	heartsLayer.x = 790;
+	heartsLayer.y = 10;
+	var hearts = 3;
+	mouseLayer.addChild(heartsLayer);
+	var initHearts = function(){
+		if(!game.easyMode) return;
+		for(var i=0; i<hearts; i++) {
+			var heart = new createjs.Bitmap( game.resources.getResult('heart') );
+			heart.scaleX = 0.6;
+			heart.scaleY = 0.6;
+			heart.y = 0;
+			heart.x = - 24*i - 24;
+			heartsLayer.addChild(heart);
+		}
+	};
+	var decreaseHeart = function(){
+		if(!game.easyMode) return false;
+		if(hearts <= 1) return false;
+		var heart = heartsLayer.getChildAt(--hearts);
+		createjs.Ticker.on('tick', function(){
+			if(heart.alpha <= 0.2) return;
+			heart.alpha -= 0.3;
+		});
+		return true;
+	};
+	initHearts();
+
 	// fade in
 	var fadeShape = new createjs.Shape();
 	fadeShape.graphics.f('#000').r(0,0,800,450);
@@ -290,9 +319,12 @@ game.level = function(levelId){
 	// place bird
 	var birds = [ birdEnd ];
 	var walkDir = 0;
+	var walkReviving = 0;
 	var walkTouchedStar = false;
 	var walkSkipped = false;
 	var walkFrom = null;
+	var walkFromX = 0;
+	var walkFromY = 0;
 	var walkTo = null;
 	var walkSkipFrom = 0;
 	var GRAVITY = 0.2;
@@ -301,6 +333,8 @@ game.level = function(levelId){
 	var walkToBird = function(fromBird, toBird){
 		// set state
 		walkFrom = fromBird;
+		walkFromX = girl.x;
+		walkFromY = girl.y;
 		walkTo = toBird;
 		walkSkipped = false;
 		walkDir = 1;
@@ -335,13 +369,48 @@ game.level = function(levelId){
 		else if(dx > max) walkSkipFrom = girl.x;
 		else walkSkipFrom = girl.x + walkDir * ((max + dx) / 2 - dx);
 	};
+	var revive = function(){
+		walkReviving = 300;
+	};
+	createjs.Ticker.on('tick', function(){
+		if(walkDir) walkReviving = 0;
+		if(!walkReviving) girl.alpha = 1;
+		else {
+			walkReviving--;
+			var alpha = walkReviving % 30;
+			if(alpha < 15) alpha = 30 - alpha;
+			girl.alpha = (alpha * 4 - 20) / 100;
+		}
+	});
+	var falling = function(){
+		if(!decreaseHeart()) {
+			endLevel(false);
+			return;
+		}
+		walkTouchedStar = false;
+		if(walkDir) {
+			walkDir = 0;
+			walkSkipped = false;
+			walkFrom = null;
+			walkTo = null;
+			walkSkipFrom = 0;
+			birdsLayer.removeChild(birds.pop());
+			birds[birds.length - 1].alpha = 1;
+		}
+		girl.sy = 0;
+		girl.ani.gotoAndStop('right');
+		girl.ani.rotation = 0;
+		girl.x = walkFromX;
+		girl.y = walkFromY;
+		revive();
+	};
 	createjs.Ticker.on('tick', function(){
 		// next position
 		if(walkTouchedStar) {
 			girl.sy += GRAVITY;
 			girl.y += girl.sy;
 			if(girl.y > 600) {
-				endLevel(false);
+				falling();
 			}
 			return;
 		}
@@ -376,7 +445,7 @@ game.level = function(levelId){
 				}
 				girl.y = newY;
 				if(girl.y > 600) {
-					endLevel(false);
+					falling();
 				}
 			}
 		} else if(walkDir < 0) {
@@ -410,11 +479,12 @@ game.level = function(levelId){
 				}
 				girl.y = newY;
 				if(girl.y > 600) {
-					endLevel(false);
+					falling();
 				}
 			}
 		}
 		// bad stars
+		if(walkReviving) return;
 		var touched = false;
 		[ [girl.x, girl.y - 10], [girl.x, girl.y - 30], [girl.x, girl.y - 50] ].forEach(function(v){
 			var x = v[0];
@@ -433,8 +503,12 @@ game.level = function(levelId){
 		});
 		if(touched) {
 			walkTouchedStar = true;
+			if(!walkDir) {
+				walkFromX = girl.x;
+				walkFromY = girl.y;
+			}
 			girl.sy = 0;
-			girl.ani.gotoAndStop('left');
+			girl.ani.gotoAndStop('right');
 			girl.ani.rotation = 270;
 		}
 	});

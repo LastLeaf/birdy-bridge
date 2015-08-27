@@ -13,6 +13,10 @@ game.main = function(){
 	game.sound.init();
 	game.sound.play(1, 75);
 
+	// easy mode
+	game.easyMode = false;
+	if(location.hash === '#easy') game.easyMode = true;
+
 	// read storage
 	if(!game.storage) {
 		try {
