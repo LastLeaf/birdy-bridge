@@ -11,6 +11,7 @@ game.level = function(levelId){
 	game.sound.init();
 
 	var design = game.levelDesign[levelId];
+	if(game.easyMode) design = game.levelDesignEasy[levelId];
 	game.storage.currentLevel = levelId;
 	if((game.storage.reachedLevel || 0) <= levelId) game.storage.reachedLevel = levelId;
 	game.storageSave();
@@ -86,7 +87,7 @@ game.level = function(levelId){
 	};
 	var decreaseHeart = function(){
 		if(!game.easyMode) return false;
-		if(hearts <= 1) return false;
+		if(hearts < 1) return false;
 		var heart = heartsLayer.getChildAt(--hearts);
 		createjs.Ticker.on('tick', function(){
 			if(heart.alpha <= 0.2) return;
@@ -153,6 +154,13 @@ game.level = function(levelId){
 		var dynamicDx = true;
 		if(x2 !== null) {
 			var dynamicDx = false;
+			if(game.easyMode) {
+				var mx = (x1+x2)/2;
+				var my = (y1+y2)/2;
+				x2 = 0.2*x2 + 0.8*mx;
+				y2 = 0.2*y2 + 0.8*my;
+				speed *= 0.6;
+			}
 			dx = x2 - x1;
 			dy = y2 - y1;
 			len = Math.sqrt(dx*dx + dy*dy);
@@ -387,13 +395,15 @@ game.level = function(levelId){
 		}
 		walkTouchedStar = false;
 		if(walkDir) {
+			if(walkTo !== birdEnd) {
+				birdsLayer.removeChild(birds.pop());
+				birds[birds.length - 1].alpha = 1;
+			}
 			walkDir = 0;
 			walkSkipped = false;
 			walkFrom = null;
 			walkTo = null;
 			walkSkipFrom = 0;
-			birdsLayer.removeChild(birds.pop());
-			birds[birds.length - 1].alpha = 1;
 		}
 		girl.sy = 0;
 		girl.ani.gotoAndStop('right');
@@ -426,7 +436,7 @@ game.level = function(levelId){
 				var newY = girl.y + girl.sy;
 				if( Math.abs(girl.x - walkTo.x) <= 23 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
 					var seNum = Math.ceil((400 - walkTo.y) / 60);
-					if(levelId === 0) seNum = Math.ceil((300 - walkTo.y) / 45);
+					if(levelId === 0) seNum = Math.ceil((birds[1].y - walkTo.y) / 45);
 					if(seNum < 1) seNum = 1;
 					else if(seNum > 6) seNum = 6;
 					if(walkTo === birdEnd) seNum = 7;
@@ -460,7 +470,7 @@ game.level = function(levelId){
 				var newY = girl.y + girl.sy;
 				if( Math.abs(girl.x - walkTo.x) <= 23 && (newY === walkTo.y || (newY - walkTo.y) * (girl.y - walkTo.y) < 0) ) {
 					var seNum = Math.ceil((400 - walkTo.y) / 60);
-					if(levelId === 0) seNum = Math.ceil((300 - walkTo.y) / 45);
+					if(levelId === 0) seNum = Math.ceil((birds[1].y - walkTo.y) / 45);
 					if(seNum < 1) seNum = 1;
 					else if(seNum > 6) seNum = 6;
 					if(walkTo === birdEnd) seNum = 7;
@@ -513,6 +523,7 @@ game.level = function(levelId){
 	var birdPlaced = function(x, y){
 		if(walkTouchedStar || walkDir || x < 30 || x > 770 || y < 50 || y > 400) return -2;
 		for(var i=0; i<birds.length; i++) {
+			if(game.easyMode && i > 0 && i < birds.length - 1) continue;
 			var bird = birds[i];
 			var dx = bird.x - x;
 			var dy = bird.y - y;
@@ -587,6 +598,11 @@ game.level = function(levelId){
 			birdPreview.visible = false;
 		}
 	});
+	stage.on('stagemouseup', function(e){
+		if(slowingStar === -1) return;
+		badStars[slowingStar].getChildAt(0).play();
+		slowingStar = -1;
+	});
 	stage.on('stagemousedown', function(e){
 		birdPreview.visible = false;
 		var p = starPlaced(e.stageX, e.stageY);
@@ -604,7 +620,7 @@ game.level = function(levelId){
 
 	// dim star
 	var STAR_HOLD_TIME = 60;
-	var STAR_DIM_TIME = 300;
+	var STAR_DIM_TIME = (game.easyMode ? 450 : 300);
 	var starDim = -1;
 	var starDimTicks = 0;
 	createjs.Ticker.on('tick', function(){
