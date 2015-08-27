@@ -620,7 +620,7 @@ game.level = function(levelId){
 
 	// dim star
 	var STAR_HOLD_TIME = 60;
-	var STAR_DIM_TIME = (game.easyMode ? 450 : 300);
+	var STAR_DIM_TIME = 300;
 	var starDim = -1;
 	var starDimTicks = 0;
 	createjs.Ticker.on('tick', function(){

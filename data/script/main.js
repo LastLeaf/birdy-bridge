@@ -89,7 +89,7 @@ game.main = function(){
 
 	// easy mode hint
 	if(game.easyMode) {
-		var easyModeHint = new createjs.Text('Easy Mode', '20px "Noto Sans",sans', '#f88');
+		var easyModeHint = new createjs.Text('Easy Mode', '30px "Noto Sans",sans', '#f88');
 		easyModeHint.x = 790;
 		easyModeHint.y = 10;
 		easyModeHint.textAlign = 'right';
