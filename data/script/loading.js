@@ -14,6 +14,7 @@
 		{id: 'girl', src: 'image/girl.png'},
 		{id: 'badStar', src: 'image/bad_star.png'},
 		{id: 'bird', src: 'image/bird.png'},
+		{id: 'heart', src: 'image/heart.png'},
 		{id: 'se1', src: 'audio/13.ogg'},
 		{id: 'se2', src: 'audio/24.ogg'},
 		{id: 'se3', src: 'audio/35.ogg'},
