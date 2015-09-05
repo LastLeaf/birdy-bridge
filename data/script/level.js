@@ -116,34 +116,37 @@ game.level = function(levelId){
 	hintLayer.addChild(hint);
 
 	// basic objects
-	var badStarSprite = new createjs.SpriteSheet({
-		images: [game.resources.getResult('badStar')],
-		frames: { width: 200, height: 200 },
-		animations: {
-			rotate: {
-				frames: [0,1,2,3,4],
-				speed: 0.1
+	var createBadStarSprite = function(size){
+		var oriImg = game.resources.getResult('badStar');
+		var imgScale = new createjs.Bitmap(oriImg);
+		imgScale.cache(0,0,1000,200,size/200);
+		var badStarSprite = new createjs.SpriteSheet({
+			images: [imgScale.cacheCanvas],
+			frames: { width: size, height: size },
+			animations: {
+				rotate: {
+					frames: [0,1,2,3,4],
+					speed: 0.1
+				}
 			}
-		}
-	});
+		});
+		return badStarSprite;
+	};
 	var createBadStar = function(x, y, size){
 		var badStar = new createjs.Container();
-		var badStarPic = new createjs.Sprite(badStarSprite, 'rotate');
-		badStarPic.scaleX = size / 200;
-		badStarPic.scaleY = size / 200;
+		var badStarPic = new createjs.Sprite(createBadStarSprite(size), 'rotate');
 		badStarPic.x = -size/2;
 		badStarPic.y = -size/2;
 		badStar.addChild(badStarPic);
 		badStarPic.gotoAndPlay('rotate');
 		badStar.x = x;
 		badStar.y = y;
+		badStar.starSize = size;
 		return badStar;
 	};
 	var createMovingStar = function(x1, y1, x2, y2, size, speed, minLen){
 		var badStar = new createjs.Container();
-		var badStarPic = new createjs.Sprite(badStarSprite, 'rotate');
-		badStarPic.scaleX = size / 200;
-		badStarPic.scaleY = size / 200;
+		var badStarPic = new createjs.Sprite(createBadStarSprite(size), 'rotate');
 		badStarPic.x = -size/2;
 		badStarPic.y = -size/2;
 		badStar.addChild(badStarPic);
@@ -198,6 +201,7 @@ game.level = function(levelId){
 			}
 			curTick++;
 		});
+		badStar.starSize = size;
 		return badStar;
 	};
 	var girlSprite = new createjs.SpriteSheet({
@@ -316,7 +320,7 @@ game.level = function(levelId){
 			if(badStar.dimLeft) continue;
 			var dx = badStar.x - x;
 			var dy = badStar.y - y;
-			var d = badStar.getChildAt(0).scaleX * 100 * 0.9;
+			var d = badStar.starSize / 2 * 0.9;
 			if(dx*dx + dy*dy < d*d) {
 				return i;
 			}
@@ -502,7 +506,7 @@ game.level = function(levelId){
 				if(badStar.dimLeft) continue;
 				var dx = badStar.x - x;
 				var dy = badStar.y - y;
-				var d = badStar.getChildAt(0).scaleX * 100;
+				var d = badStar.starSize / 2;
 				if(dx*dx + dy*dy < d*d) {
 					touched = true;
 					return false;
@@ -591,7 +595,7 @@ game.level = function(levelId){
 				birdEnd.alpha = 1;
 			}
 		} else if(p === -1) {
-			birdPreview.visible = true;
+			birdPreview.visible = !game.mobileMode;
 			birdPreview.x = e.stageX;
 			birdPreview.y = e.stageY;
 		} else {
@@ -682,6 +686,6 @@ game.level = function(levelId){
 
 	// update stage
 	createjs.Ticker.on('tick', function(){
-		stage.update();
+		game.stageUpdate();
 	});
 };

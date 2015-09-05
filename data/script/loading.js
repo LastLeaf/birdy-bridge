@@ -1,10 +1,19 @@
 (function(){
 	'use strict';
 
-	window.game = {};
 	game.TITLE = 'Birdy Bridge';
 
 	createjs.Ticker.framerate = 60;
+	var halfRate = game.mobileMode;
+	var halfRateCounter = false;
+	game.stageUpdate = function(){
+		if(halfRate) {
+			halfRateCounter = !halfRateCounter;
+			if(halfRateCounter) game.stage.update();
+		} else {
+			game.stage.update();
+		}
+	};
 
 	var resources = [
 		{id: 'lastleaf', src: 'image/lastleaf.png'},
@@ -93,7 +102,7 @@
 	progressText.y = 400;
 	game.stage.addChild(progressText);
 	createjs.Ticker.on('tick', function(){
-		game.stage.update();
+		game.stageUpdate();
 	});
 
 	game.load = function(){
@@ -107,7 +116,7 @@
 			progressText.text = document.title = 'Processing...';
 			processImages(function(){
 				document.title = game.TITLE;
-				game.main();
+				setTimeout(game.main, 0);
 			});
 		});
 		queue.loadManifest(resources);

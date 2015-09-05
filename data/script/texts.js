@@ -27,7 +27,7 @@ game.texts = function(prologue, cb){
 	});
 
 	createjs.Ticker.on('tick', function(){
-		stage.update();
+		game.stageUpdate();
 	});
 	stage.on('stagemousedown', function(){
 		if(lastText.alpha < 1) return;

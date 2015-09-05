@@ -1,8 +1,14 @@
 game.main = function(){
 	'use strict';
 
-	// detect game mode
-	game.easyMode = (location.hash === '#easy');
+	// handling state
+	if(!game.compoMode && history.state && history.state.isPlaying) history.go(-1);
+	if(!game.compoMode && history.replaceState) history.replaceState({isPlaying: false}, '', '#cover');
+	if(window.onpopstate === null) {
+		window.onpopstate = function(e){
+			if(e.state && e.state.isPlaying === false) game.main();
+		};
+	}
 
 	// prepare stage
 	var stage = game.stage;
@@ -13,6 +19,7 @@ game.main = function(){
 	stage.removeAllEventListeners('mouseout');
 	createjs.Ticker.removeAllEventListeners();
 	stage.enableMouseOver(30);
+	if(game.mobileMode) createjs.Touch.enable(stage);
 	game.sound.init();
 	game.sound.play(1, 75);
 
@@ -87,45 +94,74 @@ game.main = function(){
 	});
 	stage.addChild(desc0, desc1, desc2);
 
-	// easy mode hint
-	if(game.easyMode) {
-		var easyModeHint = new createjs.Text('Easy Mode', '30px "Noto Sans",sans', '#f88');
-		easyModeHint.x = 790;
-		easyModeHint.y = 10;
-		easyModeHint.textAlign = 'right';
-		stage.addChild(easyModeHint);
-	}
-
-	// mute
-	var createButton = function(text, x, y, cb){
-		var menuButton = new createjs.Text(text, '18px "Noto Sans",sans', '#fff');
-		menuButton.alpha = 0.5;
+	// toggle button generator
+	var createToggleButton = function(textFalse, textTrue, initVal, x, y, cb, special){
+		var menuButton = new createjs.Text(textFalse, '18px "Noto Sans",sans', '#fff');
+		if(initVal) menuButton.text = textTrue;
 		menuButton.lineHeight = 30;
 		menuButton.textBaseline = 'middle';
 		menuButton.textAlign = 'center';
 		var menuButtonWrapper = new createjs.Container();
 		var menuButtonShape = new createjs.Shape();
-		menuButtonShape.graphics.f('#000').r(-50,-15,100,30);
+		if(game.compoMode) {
+			menuButtonShape.graphics.f('#000').r(-50,-15,100,30);
+			menuButton.alpha = 0.5;
+		} else {
+			menuButtonShape.graphics.ss(2,'round','round').s(special ? '#62C4F8' : '#c0c0c0').f('#000').rr(-60,-16,120,32,16);
+			menuButton.color = (special ? '#62C4F8' : '#c0c0c0');
+		}
 		menuButtonWrapper.x = x;
 		menuButtonWrapper.y = y;
 		menuButtonWrapper.addChild(menuButtonShape, menuButton);
 		stage.addChild(menuButtonWrapper);
 		menuButtonWrapper.on('mouseover', function(){
-			menuButton.alpha = 1;
+			if(game.compoMode) menuButton.alpha = 1;
 		});
 		menuButtonWrapper.on('mouseout', function(){
-			menuButton.alpha = 0.5;
+			if(game.compoMode) menuButton.alpha = 0.5;
 		});
-		menuButtonWrapper.on('click', cb);
+		menuButtonWrapper.on('mousedown', function(){
+			if(cb()) menuButton.text = textTrue;
+			else menuButton.text = textFalse;
+			if(game.compoMode) return;
+			menuButtonWrapper.scaleX = 0.9;
+			menuButtonWrapper.scaleY = 0.9;
+		});
+		menuButtonWrapper.on('pressup', function(){
+			if(game.compoMode) return;
+			menuButtonWrapper.scaleX = 1;
+			menuButtonWrapper.scaleY = 1;
+		});
+		menuButtonWrapper.on('mouseout', function(){
+			if(game.compoMode) return;
+			menuButtonWrapper.scaleX = 1;
+			menuButtonWrapper.scaleY = 1;
+		});
 		return menuButtonWrapper;
 	};
-	var mute = createButton( game.sound.muted() ? 'Music: Off' : 'Music: On', 480, 410, function(){
-		if(game.sound.muteToggle()) {
-			mute.getChildAt(1).text = 'Music: Off';
-		} else {
-			mute.getChildAt(1).text = 'Music: On';
-		}
+
+	// buttons
+	var muteButton = createToggleButton('Music: On', 'Music: Off', game.sound.muted(), 480, 410, function(){
+		return game.sound.muteToggle();
 	});
+	if(!game.compoMode) {
+		desc0.x = 510;
+		desc0.y = 410;
+		muteButton.x = 720;
+		muteButton.y = 410;
+		createToggleButton('Hard Mode', 'Easy Mode', game.easyMode, 590, 410, function(){
+			game.easyMode = !game.easyMode;
+			return game.easyMode;
+		}, true);
+		var screenfull = window.screenfull;
+		if(screenfull.enabled) {
+			createToggleButton('Full Screen', 'Full Screen', screenfull.isFullscreen, 720, 30, function(){
+				if(screenfull.isFullscreen) screenfull.exit();
+				else screenfull.request(document.getElementById('stageWrapper'));
+				return false;
+			}).alpha = 0.7;
+		}
+	}
 
 	// levels
 	var birdsLoc = [
@@ -212,10 +248,17 @@ game.main = function(){
 			bird.alpha = 0.2;
 		}
 		bird.on('click', function(){
-			if(id === (game.storage.reachedLevel || 0) + 1) {
+			if(game.compoMode && id === (game.storage.reachedLevel || 0) + 1) {
 				if(!window.confirm('This level is locked. Do you REALLY want to play it?')) return;
 			} else if(id > (game.storage.reachedLevel || 0)) {
 				return;
+			}
+			if(!game.compoMode && history.replaceState) {
+				if(location.hash === '#cover') {
+					history.pushState({isPlaying: true}, '', '#level'+(id+1));
+				} else {
+					history.replaceState({isPlaying: true}, '', '#level'+(id+1));
+				}
 			}
 			if(id) game.level(id);
 			else game.texts(game.prologue, function(){
@@ -226,6 +269,6 @@ game.main = function(){
 	});
 
 	createjs.Ticker.on('tick', function(){
-		stage.update();
+		game.stageUpdate();
 	});
 };
