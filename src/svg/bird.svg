@@ -28,7 +28,7 @@
        color-interpolation-filters="sRGB">
       <feGaussianBlur
          id="feGaussianBlur3899"
-         stdDeviation="5"
+         stdDeviation="2.5"
          result="result91" />
       <feComposite
          id="feComposite3901"
@@ -44,9 +44,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.6705066"
-     inkscape:cx="348.51609"
-     inkscape:cy="18.020453"
+     inkscape:zoom="15.106667"
+     inkscape:cx="669.02577"
+     inkscape:cy="45.903632"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -56,6 +56,10 @@
        orientation="0,1"
        position="-23.830538,29.390997"
        id="guide5096" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="639.98235,47.925861"
+       id="guide3058" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">

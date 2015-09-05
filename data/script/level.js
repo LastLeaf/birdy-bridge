@@ -39,9 +39,10 @@ game.level = function(levelId){
 		menuButton.lineHeight = 20;
 		menuButton.textBaseline = 'middle';
 		menuButton.textAlign = 'center';
+		menuButton.cache(-10,-10,20,20);
 		var menuButtonWrapper = new createjs.Container();
 		var menuButtonShape = new createjs.Shape();
-		menuButtonShape.graphics.f('#000').r(-10,-10,20,20);
+		menuButtonShape.graphics.f('rgba(0,0,0,0.01)').r(-10,-10,20,20);
 		menuButtonWrapper.x = x;
 		menuButtonWrapper.y = y;
 		menuButtonWrapper.addChild(menuButtonShape, menuButton);
@@ -110,10 +111,33 @@ game.level = function(levelId){
 
 	// show hint
 	var hint = new createjs.Text(design.hint, 'italic 20px "Noto Sans",sans', '#b0b0b0');
+	if(game.mobileMode && design.hintMobile) hint.text = design.hintMobile;
 	hint.x = 400;
 	hint.y = 420;
 	hint.textAlign = 'center';
+	hint.cache(-400, -20, 800, 50);
 	hintLayer.addChild(hint);
+
+	// show hint circle
+	if(!game.compoMode && design.hintCircle) {
+		var hintCircle = new createjs.Shape();
+		hintCircle.graphics.ss(3).sd([12, 6], 0).s('#ff8').dc(0, 0, design.hintCircle.r);
+		hintCircle.x = design.hintCircle.x;
+		hintCircle.y = design.hintCircle.y;
+		hintCircle.cache(-design.hintCircle.r-2, -design.hintCircle.r-2, design.hintCircle.r*2+4, design.hintCircle.r*2+4);
+		hintLayer.addChild(hintCircle);
+		hintCircle.alpha = -2;
+		hintCircle.alphaInc = 1;
+		createjs.Ticker.on('tick', function(){
+			if(birds.length > 2) {
+				if(hintCircle.alpha > 0) hintCircle.alpha -= 0.01;
+				return;
+			}
+			hintCircle.alpha += 0.01 * hintCircle.alphaInc;
+			if(hintCircle.alpha >= 1) hintCircle.alphaInc = -1;
+			else if(hintCircle.alpha <= 0.4) hintCircle.alphaInc = 1;
+		});
+	}
 
 	// basic objects
 	var createBadStarSprite = function(size){
@@ -451,6 +475,7 @@ game.level = function(levelId){
 					girl.ani.gotoAndStop('right');
 					if(walkTo === birdEnd) {
 						walkDir = 0;
+						girl.y = newY;
 						return endLevel(true);
 					}
 					else walkDir = 0;

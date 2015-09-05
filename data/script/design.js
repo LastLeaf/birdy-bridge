@@ -17,6 +17,7 @@ game.epilogue = [
 game.levelDesign = [
 	{
 		hint: 'Place a bird. The girl will try jumping onto it. Try moving to the rightmost.',
+		hintCircle: { x: 300, y: 260, r: 20 },
 		audio: 1,
 		start: { x: 200, y: 300 },
 		end: { x: 600, y: 150 },
@@ -37,6 +38,7 @@ game.levelDesign = [
 	},
 	{
 		hint: 'Bad stars would fade for a while if you hold left mouse button on it.',
+		hintMobile: 'Bad stars would fade for a while if you press and hold on it.',
 		audio: 1,
 		start: { x: 50, y: 400 },
 		end: { x: 750, y: 100 },
@@ -120,6 +122,7 @@ game.levelDesign = [
 game.levelDesignEasy = [
 	{
 		hint: 'Place a bird. The girl will try jumping onto it. Try moving to the rightmost.',
+		hintCircle: { x: 350, y: 270, r: 20 },
 		audio: 1,
 		start: { x: 250, y: 300 },
 		end: { x: 550, y: 200 },
@@ -140,6 +143,7 @@ game.levelDesignEasy = [
 	},
 	{
 		hint: 'Bad stars would fade for a while if you hold left mouse button on it.',
+		hintMobile: 'Bad stars would fade for a while if you press and hold on it.',
 		audio: 1,
 		start: { x: 150, y: 350 },
 		end: { x: 650, y: 150 },

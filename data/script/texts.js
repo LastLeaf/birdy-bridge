@@ -18,6 +18,7 @@ game.texts = function(prologue, cb){
 		hint.x = 50;
 		hint.y = 100 + id * 40;
 		hint.textAlign = 'left';
+		hint.cache(0, -30, 700, 60);
 		stage.addChild(hint);
 		var alpha = -id;
 		createjs.Ticker.on('tick', function(){

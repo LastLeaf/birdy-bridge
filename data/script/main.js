@@ -113,6 +113,7 @@ game.main = function(){
 		menuButtonWrapper.x = x;
 		menuButtonWrapper.y = y;
 		menuButtonWrapper.addChild(menuButtonShape, menuButton);
+		menuButtonWrapper.cache(-61,-17,124,34);
 		stage.addChild(menuButtonWrapper);
 		menuButtonWrapper.on('mouseover', function(){
 			if(game.compoMode) menuButton.alpha = 1;
@@ -123,6 +124,7 @@ game.main = function(){
 		menuButtonWrapper.on('mousedown', function(){
 			if(cb()) menuButton.text = textTrue;
 			else menuButton.text = textFalse;
+			menuButtonWrapper.updateCache();
 			if(game.compoMode) return;
 			menuButtonWrapper.scaleX = 0.9;
 			menuButtonWrapper.scaleY = 0.9;
@@ -226,17 +228,20 @@ game.main = function(){
 		birdPic.x = -35;
 		birdPic.y = -50;
 		birdPic.gotoAndPlay('stay');
-		if(id <= (game.storage.reachedLevel || 0) + 1) {
-			birdPic.on('mouseover', function(){
+		var clickable = new createjs.Shape();
+		clickable.graphics.f('rgba(0,0,0,0.01)').dc(0, -5, 30);
+		clickable.cache(-30, -35, 60, 60);
+		bird.addChild(clickable, birdPic);
+		bird.x = x;
+		bird.y = y;
+		if(id <= (game.storage.reachedLevel || 0) + (game.compoMode ? 1 : 0)) {
+			bird.on('mouseover', function(){
 				birdPic.gotoAndPlay('fly');
 			});
-			birdPic.on('mouseout', function(){
+			bird.on('mouseout', function(){
 				birdPic.gotoAndPlay('stay');
 			});
 		}
-		bird.addChild(birdPic);
-		bird.x = x;
-		bird.y = y;
 		return bird;
 	};
 	birdsLoc.forEach(function(pos, id){
